@@ -1,22 +1,24 @@
-import logo from './logo.svg';
+import { TelegramWebAppContainer } from '@telegram-web-app/core';
 import './App.css';
+import { useEffect } from 'react';
 
+const telegram = new TelegramWebAppContainer();
 function App() {
+
+  useEffect(() => {
+    telegram.WebApp.ready()
+  }, [])
+
+  const onClose = () => {
+    telegram.WebApp.close()
+  }
+  
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      {telegram.WebApp.version}
+
+      <button onClick={onClose} >Закрыть</button>
       </header>
     </div>
   );
