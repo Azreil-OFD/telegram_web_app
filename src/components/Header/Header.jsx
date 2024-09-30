@@ -1,12 +1,16 @@
 import React from "react";
-import { TelegramWebAppContainer } from '@telegram-web-app/core';
+
 import './Header.module.css'
-const telegram = new TelegramWebAppContainer();
+const tg = window.Telegram;
 const Header = (props) => {
+    const onClose = () => {
+        tg.WebApp.close()
+      }
+      
     return (
        <div className={'header'}>
-            <button >Закрыть</button>
-            <span className={'username'}>Добро пожаловать, {telegram.WebApp.initDataUnsafe?.user?.username}!</span>
+            <button onClick={onClose}>Закрыть</button>
+            <span className={'username'}>Добро пожаловать, {tg.WebApp.initDataUnsafe?.user?.username}!</span>
        </div>
     )
 }
