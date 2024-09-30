@@ -1,6 +1,7 @@
-import { TelegramWebAppContainer } from '@telegram-web-app/core';
 import './App.css';
 import { useEffect } from 'react';
+import { TelegramWebAppContainer } from '@telegram-web-app/core';
+import Header from './components/Header/Header';
 
 const telegram = new TelegramWebAppContainer();
 function App() {
@@ -13,13 +14,15 @@ function App() {
     telegram.WebApp.close()
   }
   
+  
   return (
     <div className="App">
-      <header className="App-header">
+      
+      <Header className="App-header">
       {telegram.WebApp.version}
 
       <button onClick={onClose} >Закрыть</button>
-      </header>
+      </Header>
     </div>
   );
 }
