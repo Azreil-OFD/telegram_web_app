@@ -14,7 +14,7 @@ const ProductItem = () => {
 
     tg.MainButton.setText("Оформить заказ")
     tg.MainButton.onClick(() => {
-        tg.sendData('')
+        tg.sendData('hello world')
     })
     useEffect(() => {
         // Загружаем данные категорий с продуктами
