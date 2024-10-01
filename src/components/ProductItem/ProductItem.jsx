@@ -14,6 +14,17 @@ const ProductItem = () => {
     const [product, setProduct] = useState(null);
     const [weight, setWeight] = useState(null);
     const { tg } = useTelegram()
+    useEffect(() => {
+        tg.MainButton.setText("Добавить в корзину")
+        tg.MainButton.onClick(() => {
+            addToCart({ ...product, weight })
+            tg.MainButton.setText("Перейти в корзину")
+            tg.MainButton.onClick(() => {
+                tg.sendData(JSON.stringify(cart))
+            })
+
+        })
+    }, [])
     // Function to add a product to the cart
     const addToCart = (product) => {
         // Check if product is already in the cart
@@ -34,15 +45,7 @@ const ProductItem = () => {
 
 
 
-    tg.MainButton.setText("Добавить в корзину")
-    tg.MainButton.onClick(() => {
-        addToCart({...product, weight})
-        tg.MainButton.setText("Перейти в корзину")
-        tg.MainButton.onClick(() => {
-                
-        })
-        
-    })
+
     useEffect(() => {
         // Загружаем данные категорий с продуктами
         fetch(`https://committed-victory-e015be0776.strapiapp.com/api/categories?populate[products][populate]=images`)
