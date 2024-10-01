@@ -21,6 +21,8 @@ const CategoryList = () => {
   }, []);
 
   return (
+   <>
+    <h1 className="page-title">Категории</h1>
     <div className="category-list">
       {categories.map((category) => (
         <Link
@@ -32,6 +34,7 @@ const CategoryList = () => {
         </Link>
       ))}
     </div>
+    </>
   );
 };
 

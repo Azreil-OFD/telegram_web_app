@@ -28,30 +28,33 @@ const ProductList = () => {
   };
 
   return (
-    <div className="product-list">
-      {products.length > 0 ? (
-        products.map((product) => (
-          <div
-            key={product.id}
-            className="product-item"
-            onClick={() => handleProductClick(product.id)}
-          >
-            <h3>{product.title}</h3>
-            <p>{product.description}</p>
-            <p>Цена: {product.solar}</p>
-            {product.images.length > 0 && (
-              <img
-                src={product.images[0].formats.thumbnail.url}
-                alt={product.title}
-                className="product-image"
-              />
-            )}
-          </div>
-        ))
-      ) : (
-        <p>Нет доступных продуктов</p>
-      )}
-    </div>
+    <>
+      <h1 className="page-title">Товары</h1>
+
+      <div className="product-list">
+        {products.length > 0 ? (
+          products.map((product) => (
+            <div
+              key={product.id}
+              className="product-item"
+              onClick={() => handleProductClick(product.id)}
+            >
+              <h3>{product.title}</h3>
+              <p>{product.description}</p>
+              <p>Цена: {product.solar}</p>
+              {product.images.length > 0 && (
+                <img
+                  src={product.images[0].formats.thumbnail.url}
+                  alt={product.title}
+                  className="product-image"
+                />
+              )}
+            </div>
+          ))
+        ) : (
+          <p>Нет доступных продуктов</p>
+        )}
+      </div></>
   );
 };
 
