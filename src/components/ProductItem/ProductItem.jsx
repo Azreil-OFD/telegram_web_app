@@ -8,6 +8,7 @@ import { useTelegram } from './../../hooks/useTelegram';
 import Select from './../Select/Select';
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useMemo } from "react";
+import Button from './../Button/Button';
 const ProductItem = () => {
     const [cart, setCart] = useLocalStorage('cart', [])
     const { categoryID, productID } = useParams(); // Получаем categoryID и productID из URL
@@ -20,18 +21,8 @@ const ProductItem = () => {
     }, [product, weight]);
     const handleAddToCart = () => {
         addToCart({ ...product, weight });
-        tg.MainButton.hide()
         setSuccess(true)
     };
-    useEffect(() => {
-        tg.MainButton.setText("Добавить в корзину");
-        tg.MainButton.onClick(handleAddToCart);
-
-        // Очищаем обработчики при размонтировании
-        return () => {
-            tg.MainButton.offClick(handleAddToCart);
-        };
-    }, []);
     // Function to add a product to the cart
     const addToCart = (product) => {
         // Check if product is already in the cart
@@ -73,7 +64,6 @@ const ProductItem = () => {
     const onSelect = (_weight) => {
         setSuccess(false)
         setWeight(_weight);
-        tg.MainButton.show()
     }
     // Настройки для слайдера
     const sliderSettings = {
@@ -137,7 +127,10 @@ const ProductItem = () => {
                 <Select start={50} end={1000} step={50} onSelect={onSelect}></Select>
 
             </div>
-
+            {
+                !success && (<Button onClick={handleAddToCart}>Добавить в корзину</Button>)
+            }
+                
         </>
 
     );
