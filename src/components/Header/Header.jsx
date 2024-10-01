@@ -3,12 +3,11 @@ import React from "react";
 import './Header.css'
 import { useTelegram } from "../../hooks/useTelegram";
 const Header = (props) => {
-    const {onClose , user} = useTelegram()
+    const {user} = useTelegram()
       
     return (
        <div className={'header'}>
-            <button onClick={onClose}>Закрыть</button>
-            <span className={'username'}>Добро пожаловать, {user?.id}!</span>
+            <span className={'username'}>Добро пожаловать{user?.username ? ', ' : ''}{user?.username}!</span>
        </div>
     )
 }

@@ -3,9 +3,10 @@
     height: 50px;
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
     padding: 0 20px;
 }
 
 .username {
-    margin-left: auto;
+    text-align: center;
 }
