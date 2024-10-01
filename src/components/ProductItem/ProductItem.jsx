@@ -24,7 +24,7 @@ const ProductItem = () => {
             // Очищаем предыдущий обработчик и добавляем новый для перехода в корзину
             tg.MainButton.offClick(handleAddToCart);
             tg.MainButton.onClick(() => {
-                tg.sendData(JSON.stringify(cart));
+                navigate(`/cart`);
             });
         };
     
