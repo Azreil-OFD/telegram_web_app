@@ -6,15 +6,42 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"; // Стили для слайдера
 import { useTelegram } from './../../hooks/useTelegram';
 import Select from './../Select/Select';
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 const ProductItem = () => {
+    const [cart, setCart] = useLocalStorage('cart', [])
     const { categoryID, productID } = useParams(); // Получаем categoryID и productID из URL
     const [product, setProduct] = useState(null);
+    const [weight, setWeight] = useState(null);
     const { tg } = useTelegram()
+    // Function to add a product to the cart
+    const addToCart = (product) => {
+        // Check if product is already in the cart
+        const existingProduct = cart.find((item) => item.id === product.id);
+        if (existingProduct) {
+            // If it's already in the cart, increase the quantity
+            const updatedCart = cart.map((item) =>
+                item.id === product.id
+                    ? { ...item, quantity: item.quantity + 1 }
+                    : item
+            );
+            setCart(updatedCart);
+        } else {
+            // If it's not in the cart, add it with quantity 1
+            setCart([...cart, { ...product, quantity: 1 }]);
+        }
+    };
 
-    tg.MainButton.setText("Оформить заказ")
+
+
+    tg.MainButton.setText("Добавить в корзину")
     tg.MainButton.onClick(() => {
-        tg.sendData('hello world')
+        addToCart({...product, weight})
+        tg.MainButton.setText("Перейти в корзину")
+        tg.MainButton.onClick(() => {
+                
+        })
+        
     })
     useEffect(() => {
         // Загружаем данные категорий с продуктами
@@ -33,7 +60,8 @@ const ProductItem = () => {
     if (!product) {
         return <p>Продукт не найден</p>;
     }
-    const onSelect = () => {
+    const onSelect = (_weight) => {
+        setWeight(_weight);
         tg.MainButton.show()
     }
     // Настройки для слайдера
