@@ -13,14 +13,13 @@ const CartPage = () => {
       {
         if(item.id === productId) {
           if(item.weight === weight) {
-            return { ...item, quantity: item.quantity - 1 }
+            return { ...item, quantity: item.quantity + 1 }
           }
         }
         
         return item;
       }
       )
-      .filter((item) => item.quantity > 0); // Remove items with 0 quantity
     setCart(updatedCart);
   };
 

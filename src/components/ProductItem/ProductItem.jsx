@@ -21,6 +21,7 @@ const ProductItem = () => {
     }, [product, weight]);
     const handleAddToCart = () => {
         addToCart({ ...product, weight });
+        setWeight(0)
         setSuccess(true)
     };
     // Function to add a product to the cart
@@ -127,10 +128,22 @@ const ProductItem = () => {
                 <Select start={50} end={1000} step={50} onSelect={onSelect}></Select>
 
             </div>
-            {
-                !success && (<Button onClick={handleAddToCart}>Добавить в корзину</Button>)
-            }
-                
+            <div style={{ position: 'fixed', bottom: '10px', left: '10px', right: '10px' }}>
+                {totalPrice !== 0 && (
+                    <Button
+                        style={{
+                            width: '100%',
+                            padding: '10px',
+                            borderRadius: '8px',
+                            border: "black solid 1px"
+                        }}
+                        onClick={handleAddToCart}
+                    >
+                        Добавить в корзину
+                    </Button>
+                )}
+            </div>
+
         </>
 
     );
