@@ -19,10 +19,9 @@ const ProductItem = () => {
     
         const handleAddToCart = () => {
             addToCart({ ...product, weight });
-            tg.MainButton.setText("Перейти в корзину");
+            tg.MainButton.setText("Перейти к корзине");
     
             // Очищаем предыдущий обработчик и добавляем новый для перехода в корзину
-            tg.MainButton.offClick(handleAddToCart);
             tg.MainButton.onClick(() => {
                 navigate(`/cart`);
             });
