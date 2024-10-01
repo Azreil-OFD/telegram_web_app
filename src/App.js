@@ -1,19 +1,20 @@
 import './App.css';
 import Header from './components/Header/Header';
-import { useTelegram } from './hooks/useTelegram';
-import Button from './components/Button/Button';
-
+import { Route, Routes } from 'react-router-dom';
+import ProductList from './components/ProductList/ProductList';
+import CategoryList from './components/CategoryList/CategoryList';
 
 function App() {
-  const {onToggleButton} = useTelegram()
   
   return (
-    <div className="App">
-      
+    <div className="App">      
       <Header className="App-header"></Header>
-
-      <Button>Привет мир</Button>
-      <button onClick={onToggleButton}>toggle</button>
+      <Routes>
+        <Route index element={<CategoryList/>} />
+        <Route path='/category/:categoryID' element={<ProductList/>} />
+        <Route path='/category/:categoryID/:productID' element={<ProductList/>} />
+      </Routes>
+     
     </div>
   );
 }

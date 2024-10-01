@@ -9,7 +9,6 @@ export function useTelegram() {
             tg.MainButton.hide()
         } else {
             tg.MainButton.show()
-            
         }
     }
     return {
