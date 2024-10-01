@@ -2,9 +2,9 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
-}
-
-.category-item {
+  }
+  
+  .category-item {
     padding: 10px;
     background-color: var(--tg-theme-bg-color);
     color: var(--tg-theme-text-color);
@@ -13,9 +13,10 @@
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-}
-
-.category-item:hover {
+  }
+  
+  .category-item:hover {
     background-color: var(--tg-theme-button-color);
     color: var(--tg-theme-button-text-color);
-}
+  }
+  

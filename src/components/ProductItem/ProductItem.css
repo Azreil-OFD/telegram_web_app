@@ -1,0 +1,26 @@
+.product-item {
+    background-color: var(--tg-theme-bg-color);
+    color: var(--tg-theme-text-color);
+    border: 1px solid var(--tg-theme-hint-color);
+    border-radius: 8px;
+    padding: 15px;
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .product-item:hover {
+    background-color: var(--tg-theme-button-color);
+    color: var(--tg-theme-button-text-color);
+  }
+  
+  .product-image {
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--tg-theme-hint-color);
+  }
+  

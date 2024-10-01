@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "./CategoryList.css"; // импортируем CSS файл для стилей
+import "./CategoryList.css";
 
 const CategoryList = () => {
+  const [categories, setCategories] = useState([]);
 
-    const categories = [
-        {id: 1 , title: "Мухаморы 1"},
-        {id: 2 , title: "Мухаморы 2"},
-        {id: 3 , title: "Мухаморы 3"},
-        {id: 4 , title: "Мухаморы 4"},
-    ]
+  useEffect(() => {
+    fetch("https://committed-victory-e015be0776.strapiapp.com/api/categories?populate[products][populate]=images")
+      .then((response) => response.json())
+      .then((data) => {
+        // Фильтруем категории, у которых есть продукты
+        const filteredCategories = data.data.filter(
+          (category) => category.products.length > 0
+        );
+        setCategories(filteredCategories);
+      })
+      .catch((error) => console.error("Error fetching categories:", error));
+  }, []);
+
   return (
     <div className="category-list">
       {categories.map((category) => (

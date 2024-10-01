@@ -16,14 +16,14 @@ const Header = (props) => {
 
     return (
         <div className={'header'}>
+            <span className={'username'}>
+                Добро пожаловать{user?.username ? ', ' : ''}{user?.username}!
+            </span>
             {!isIndexPage && (
                 <button className="back-button" onClick={handleGoBack}>
                     Назад
                 </button>
             )}
-            <span className={'username'}>
-                Добро пожаловать{user?.username ? ', ' : ''}{user?.username}!
-            </span>
         </div>
     );
 };
