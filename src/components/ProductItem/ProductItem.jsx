@@ -24,7 +24,7 @@ const ProductItem = () => {
             })
 
         })
-    }, [])
+    })
     // Function to add a product to the cart
     const addToCart = (product) => {
         // Check if product is already in the cart
@@ -42,9 +42,6 @@ const ProductItem = () => {
             setCart([...cart, { ...product, quantity: 1 }]);
         }
     };
-
-
-
 
     useEffect(() => {
         // Загружаем данные категорий с продуктами
