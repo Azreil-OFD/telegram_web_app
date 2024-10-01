@@ -4,11 +4,17 @@ import Slider from "react-slick"; // Импортируем Slider из react-sl
 import "./ProductItem.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"; // Стили для слайдера
+import { useTelegram } from './../../hooks/useTelegram';
 
 const ProductItem = () => {
     const { categoryID, productID } = useParams(); // Получаем categoryID и productID из URL
     const [product, setProduct] = useState(null);
-
+    const { tg } = useTelegram()
+    tg.MainButton.show()
+    tg.MainButton.setText("Оформить заказ")
+    tg.MainButton.onClick(() => {
+        
+    })
     useEffect(() => {
         // Загружаем данные категорий с продуктами
         fetch(`https://committed-victory-e015be0776.strapiapp.com/api/categories?populate[products][populate]=images`)
@@ -35,7 +41,7 @@ const ProductItem = () => {
         slidesToShow: 1,
         slidesToScroll: 1
     };
-    console.log(product.images)
+
     return (
         <div className="product-item">
             {product.images.length > 0 && (
@@ -51,9 +57,9 @@ const ProductItem = () => {
                     ))}
                 </Slider>
             )}
-            <h3>{product.title}</h3>
-            <p>{product.description}</p>
-            <p>Цена: {product.solar}</p>
+            <p><b>Наименование: </b>  {product.title}</p>
+            <p><b>Описание: </b> {product.description}</p>
+            <p><b>Цена: </b> {product.solar}₽</p>
         </div>
     );
 };

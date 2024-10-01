@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./ProductList.css";
+import { useTelegram } from "../../hooks/useTelegram";
 
 const ProductList = () => {
   const { categoryID } = useParams(); // Получаем categoryID из URL
   const [products, setProducts] = useState([]);
   const navigate = useNavigate(); // Для навигации при клике на продукт
-
+  const { tg } = useTelegram()
+  tg.MainButton.hide()
   useEffect(() => {
     // Загружаем данные категорий с продуктами
     fetch(`https://committed-victory-e015be0776.strapiapp.com/api/categories?populate[products][populate]=images`)

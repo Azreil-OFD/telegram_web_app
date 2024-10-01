@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./CategoryList.css";
+import { useTelegram } from "../../hooks/useTelegram";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
-
+  const { tg } = useTelegram()
+  tg.MainButton.hide()
   useEffect(() => {
     fetch("https://committed-victory-e015be0776.strapiapp.com/api/categories?populate[products][populate]=images")
       .then((response) => response.json())
