@@ -10,11 +10,10 @@ function App() {
   return (
     <div className="App">
       
-      <Header className="App-header">
+      <Header className="App-header"></Header>
 
       <Button></Button>
       <button onClick={onToggleButton}>toggle</button>
-      </Header>
     </div>
   );
 }
