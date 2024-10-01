@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import './Select.css'; // Файл с кастомными стилями
 
-const Select = ({ start, end, onSelect }) => {
+const Select = ({ start, end, step = 1, onSelect }) => {
     const [selection, setSelection] = useState(-1);
 
     const handleClick = (value) => {
-        setSelection(value)
+        setSelection(value);
         onSelect(value); // Вызываем переданную функцию
     };
 
-    const numbers = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    const numbers = Array.from({ length: Math.floor((end - start) / step) + 1 }, (_, i) => start + i * step);
 
     return (
         <div className="select-container">
@@ -19,7 +19,7 @@ const Select = ({ start, end, onSelect }) => {
                     className={"select-button " + (num === selection ? "selection" : "")}
                     onClick={() => handleClick(num)}
                 >
-                    {num}
+                    {num} гр.
                 </button>
             ))}
         </div>

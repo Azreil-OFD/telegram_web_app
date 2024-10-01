@@ -114,7 +114,7 @@ const ProductItem = () => {
             <p><b>Описание: </b> {product.description}</p>
             <p><b>Цена: </b> {product.solar}₽</p>
             <p><b>Выберите грамовку</b></p>
-            <Select start={1} end={5} onSelect={onSelect}></Select>
+            <Select start={100} end={1000} step={100} onSelect={onSelect}></Select>
         </div>
     );
 };
