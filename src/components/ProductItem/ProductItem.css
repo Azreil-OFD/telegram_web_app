@@ -23,4 +23,18 @@
     border-radius: 5px;
     border: 1px solid var(--tg-theme-hint-color);
   }
+  .product-item {
+    max-width: 600px;
+    margin: 0 auto;
+  }
   
+  .slick-slider {
+    max-width: 100%; /* Устанавливаем ширину слайдера */
+  }
+  
+  .slick-slide img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%; /* Чтобы изображение было пропорционально */
+    height: auto; /* Изображения не должны быть искажены */
+  }

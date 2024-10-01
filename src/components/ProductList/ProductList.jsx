@@ -1,44 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import ProductItem from "./ProductItem";
+import { useParams, useNavigate } from "react-router-dom";
 import "./ProductList.css";
 
 const ProductList = () => {
-  const { categoryID, productID } = useParams(); // Получаем categoryID и productID из URL
+  const { categoryID } = useParams(); // Получаем categoryID из URL
   const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const navigate = useNavigate(); // Для навигации при клике на продукт
 
   useEffect(() => {
     // Загружаем данные категорий с продуктами
     fetch(`https://committed-victory-e015be0776.strapiapp.com/api/categories?populate[products][populate]=images`)
       .then((response) => response.json())
       .then((data) => {
-        // Ищем нужную категорию по categoryID
         const category = data.data.find(category => category.id === parseInt(categoryID));
         if (category) {
-          const allProducts = category.products;
-          setProducts(allProducts);
-
-          // Если указан productID, ищем конкретный продукт
-          if (productID) {
-            const foundProduct = allProducts.find(product => product.id === parseInt(productID));
-            setSelectedProduct(foundProduct);
-          }
+          setProducts(category.products);
         }
       })
       .catch((error) => console.error("Error fetching products:", error));
-  }, [categoryID, productID]);
+  }, [categoryID]);
 
-  // Если выбран конкретный продукт, отображаем только его с помощью ProductItem
-  if (selectedProduct) {
-    return <ProductItem product={selectedProduct} />;
-  }
+  // Функция для обработки клика по продукту
+  const handleProductClick = (productID) => {
+    navigate(`/category/${categoryID}/${productID}`);
+  };
 
-  // Если нет конкретного продукта, отображаем все продукты категории
   return (
     <div className="product-list">
       {products.length > 0 ? (
-        products.map((product) => <ProductItem key={product.id} product={product} />)
+        products.map((product) => (
+          <div
+            key={product.id}
+            className="product-item"
+            onClick={() => handleProductClick(product.id)}
+          >
+            <h3>{product.title}</h3>
+            <p>{product.description}</p>
+            <p>Цена: {product.solar}</p>
+            {product.images.length > 0 && (
+              <img
+                src={product.images[0].formats.thumbnail.url}
+                alt={product.title}
+                className="product-image"
+              />
+            )}
+          </div>
+        ))
       ) : (
         <p>Нет доступных продуктов</p>
       )}
