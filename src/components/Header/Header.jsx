@@ -8,7 +8,7 @@ const Header = (props) => {
     return (
        <div className={'header'}>
             <button onClick={onClose}>Закрыть</button>
-            <span className={'username'}>Добро пожаловать, {user?.username}!</span>
+            <span className={'username'}>Добро пожаловать, {user?.id}!</span>
        </div>
     )
 }
