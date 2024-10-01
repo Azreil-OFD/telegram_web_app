@@ -1,60 +1,57 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import './CartPage.css'; // Assume you have some basic Telegram Mini App CSS variables
 import { useLocalStorage } from '@uidotdev/usehooks';
 import { useTelegram } from '../../hooks/useTelegram';
 
 const CartPage = () => {
   const [cart, setCart] = useLocalStorage('cart', []);
-  const { tg } = useTelegram()
+  const { tg } = useTelegram();
+
+  const totalCost = useMemo(() => {
+    return cart.reduce((acc, item) => {
+      return acc + (item.weight / 50) * item.solar * item.quantity; // Учитываем количество
+    }, 0);
+  }, [cart]);
+
   // Function to add a product to the cart
-  const addToCart = (productId , weight) => {
-    const updatedCart = cart
-      .map((item) =>
-      {
-        if(item.id === productId) {
-          if(item.weight === weight) {
-            return { ...item, quantity: item.quantity + 1 }
-          }
-        }
-        
-        return item;
+  const addToCart = (productId, weight) => {
+    const updatedCart = cart.map((item) => {
+      if (item.id === productId && item.weight === weight) {
+        return { ...item, quantity: item.quantity + 1 };
       }
-      )
+      return item;
+    });
     setCart(updatedCart);
   };
 
   // Function to remove a product from the cart
-  const removeFromCart = (productId , weight) => {
+  const removeFromCart = (productId, weight) => {
     const updatedCart = cart
-      .map((item) =>
-      {
-        if(item.id === productId) {
-          if(item.weight === weight) {
-            return { ...item, quantity: item.quantity - 1 }
-          }
+      .map((item) => {
+        if (item.id === productId && item.weight === weight) {
+          return { ...item, quantity: item.quantity - 1 };
         }
-        
         return item;
-      }
-      )
-      .filter((item) => item.quantity > 0); // Remove items with 0 quantity
+      })
+      .filter((item) => item.quantity > 0); // Удаляем товары с количеством 0
     setCart(updatedCart);
   };
-  
-  useEffect(() => {
-      tg.MainButton.setText("Оставить заявку");
-  
-      const handleAddToCart = () => {
 
-      };
-  
-      tg.MainButton.onClick(handleAddToCart);
-  
-      // Очищаем обработчики при размонтировании
-      return () => {
-          tg.MainButton.offClick(handleAddToCart);
-      };
-  }, []);
+  useEffect(() => {
+    tg.MainButton.setText('Оставить заявку');
+
+    const handleAddToCart = () => {
+      tg.close()
+      setCart([])
+    };
+
+    tg.MainButton.onClick(handleAddToCart);
+
+    return () => {
+      tg.MainButton.offClick(handleAddToCart);
+    };
+  }, [tg]);
+
   return (
     <div className="cart-page">
       <h1 className="cart-page-title">Корзина</h1>
@@ -63,7 +60,7 @@ const CartPage = () => {
       ) : (
         <ul className="cart-items">
           {cart.map((product) => {
-            if(product?.title)  {
+            if (product?.title) {
               return (
                 <li key={product.id} className="cart-item">
                   <img
@@ -74,7 +71,9 @@ const CartPage = () => {
                   <div className="cart-item-info">
                     <h2 className="cart-item-title">{product.title}</h2>
                     <p className="cart-item-description">{product.description}</p>
-                    <p className="cart-item-price">{product.solar} Р</p>
+                    <p className="cart-item-price">
+                      {((product.solar / 50) * product.weight * product.quantity).toFixed(2)} ₽
+                    </p>
                     <p className="cart-item-quantity">
                       Грамовка: {product.weight} гр.
                     </p>
@@ -97,13 +96,17 @@ const CartPage = () => {
                     </div>
                   </div>
                 </li>
-              )
+              );
             } else {
-              return (<></>)
+              return <></>;
             }
           })}
         </ul>
       )}
+
+      <div>
+        <h3>Общая стоимость: {totalCost.toFixed(2)} ₽</h3>
+      </div>
     </div>
   );
 };
