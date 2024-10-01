@@ -1,10 +1,12 @@
 .select-container {
     display: flex;
     justify-content: space-between;
+    max-width: max-content;
     gap: 8px;
     padding: 10px;
-  }
-  
+    flex-wrap: wrap; /* Добавлено для переноса элементов */
+}
+
 .select-button {
     padding: 10px 15px;
     border: none;
@@ -15,9 +17,11 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
 .select-button:hover {
     background-color: var(--tg-theme-button-color-hover, #006699);
 }
+
 .select-button:active {
     background-color: var(--tg-theme-button-color-active, #004466);
 }

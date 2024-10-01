@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './CartPage.css'; // Assume you have some basic Telegram Mini App CSS variables
 import { useLocalStorage } from '@uidotdev/usehooks';
 import { useTelegram } from '../../hooks/useTelegram';
