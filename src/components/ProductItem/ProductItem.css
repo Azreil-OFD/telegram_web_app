@@ -11,10 +11,6 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.product-item:hover {
-    background-color: var(--tg-theme-button-color);
-    color: var(--tg-theme-button-text-color);
-}
 
 .product-image {
     width: 100%;
