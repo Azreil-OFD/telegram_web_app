@@ -15,16 +15,26 @@ const ProductItem = () => {
     const [weight, setWeight] = useState(null);
     const { tg } = useTelegram()
     useEffect(() => {
-        tg.MainButton.setText("Добавить в корзину")
-        tg.MainButton.onClick(() => {
-            addToCart({ ...product, weight })
-            tg.MainButton.setText("Перейти в корзину")
+        tg.MainButton.setText("Добавить в корзину");
+    
+        const handleAddToCart = () => {
+            addToCart({ ...product, weight });
+            tg.MainButton.setText("Перейти в корзину");
+    
+            // Очищаем предыдущий обработчик и добавляем новый для перехода в корзину
+            tg.MainButton.offClick(handleAddToCart);
             tg.MainButton.onClick(() => {
-                tg.sendData(JSON.stringify(cart))
-            })
-
-        })
-    })
+                tg.sendData(JSON.stringify(cart));
+            });
+        };
+    
+        tg.MainButton.onClick(handleAddToCart);
+    
+        // Очищаем обработчики при размонтировании
+        return () => {
+            tg.MainButton.offClick(handleAddToCart);
+        };
+    }, []);
     // Function to add a product to the cart
     const addToCart = (product) => {
         // Check if product is already in the cart
