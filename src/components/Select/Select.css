@@ -1,0 +1,26 @@
+.select-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px;
+  }
+  
+  .select-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--tg-theme-button-color, #0088cc);
+    color: var(--tg-theme-button-text-color, #ffffff);
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .select-button:hover {
+    background-color: var(--tg-theme-button-color-hover, #006699);
+  }
+  
+  .select-button:active {
+    background-color: var(--tg-theme-button-color-active, #004466);
+  }
+  

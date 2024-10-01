@@ -5,15 +5,16 @@ import "./ProductItem.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"; // Стили для слайдера
 import { useTelegram } from './../../hooks/useTelegram';
+import Select from './../Select/Select';
 
 const ProductItem = () => {
     const { categoryID, productID } = useParams(); // Получаем categoryID и productID из URL
     const [product, setProduct] = useState(null);
     const { tg } = useTelegram()
-    tg.MainButton.show()
+    
     tg.MainButton.setText("Оформить заказ")
     tg.MainButton.onClick(() => {
-        
+        tg.sendData('')
     })
     useEffect(() => {
         // Загружаем данные категорий с продуктами
@@ -32,7 +33,9 @@ const ProductItem = () => {
     if (!product) {
         return <p>Продукт не найден</p>;
     }
-
+    const onSelect = () => {
+        tg.MainButton.show()
+    }
     // Настройки для слайдера
     const sliderSettings = {
         dots: true,
@@ -60,6 +63,8 @@ const ProductItem = () => {
             <p><b>Наименование: </b>  {product.title}</p>
             <p><b>Описание: </b> {product.description}</p>
             <p><b>Цена: </b> {product.solar}₽</p>
+            <p><b>Выберите грамовку</b></p>
+            <Select start={1} end={5} onSelect={onSelect}></Select>
         </div>
     );
 };
