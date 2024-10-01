@@ -11,7 +11,7 @@ const ProductItem = () => {
     const { categoryID, productID } = useParams(); // Получаем categoryID и productID из URL
     const [product, setProduct] = useState(null);
     const { tg } = useTelegram()
-    
+
     tg.MainButton.setText("Оформить заказ")
     tg.MainButton.onClick(() => {
         tg.sendData('')
@@ -47,7 +47,7 @@ const ProductItem = () => {
 
     return (
         <div className="product-item">
-            {product.images.length > 0 && (
+            {product.images.length > 1 && (
                 <Slider {...sliderSettings}>
                     {product.images.map((image, index) => (
                         <div key={index}>
@@ -60,6 +60,18 @@ const ProductItem = () => {
                     ))}
                 </Slider>
             )}
+            {product.images.length === 1 && (
+                product.images.map((image, index) => (
+                    <div key={index}>
+                        <img
+                            src={image.url}
+                            alt={product.title}
+                            className="product-image"
+                        />
+                    </div>
+                ))
+            )}
+
             <p><b>Наименование: </b>  {product.title}</p>
             <p><b>Описание: </b> {product.description}</p>
             <p><b>Цена: </b> {product.solar}₽</p>
