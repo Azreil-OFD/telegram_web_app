@@ -54,6 +54,12 @@ const CartPage = () => {
         body: { "data": { customer: -1, "accepted": false, "send": false, "received": false, products: [] } }
       };
       options.body.data.customer = user.data[0].id
+      const saveCart = await cart.map(e => ({
+        produkty: e.id,
+            title: e.title,
+            weight: e.weight,
+            quantity: e.quantity
+      }))
       options.body.data.products = await cart.map(e => ({
         produkty: e.id,
         weight: e.weight
@@ -65,7 +71,7 @@ const CartPage = () => {
         await fetch(`https://azreil-ofj-backend-tg-c56e.twc1.net/v1/telegram/success`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'User-Agent': 'insomnia/10.0.0' },
-          body: JSON.stringify({ id: tg.initDataUnsafe.user.id, orderId: formatNumber(Number(result.data.id)), orderUnsafeId: result.data.id })
+          body: JSON.stringify({ id: tg.initDataUnsafe.user.id, orderId: formatNumber(Number(result.data.id)), orderUnsafeId: result.data.id, cart: saveCart, totalCost })
         })
         tg.close()
         setCart([])
