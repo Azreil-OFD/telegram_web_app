@@ -51,7 +51,7 @@ const ProductList = () => {
               className="product-item-list"
               onClick={() => handleProductClick(product.id)}
             >
-              <div className="image">
+              <div className="product-item-list-image">
                 {product.attributes.images.data.length > 0 && (
                   <img
                     src={

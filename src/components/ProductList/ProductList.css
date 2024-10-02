@@ -3,10 +3,16 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+    padding-left: 3vh;
     background-color: var(--tg-theme-bg-color);
+    justify-content: space-between
   }
 .product-item-list {
   display: flex;
   align-items: center;
   gap: 2vh;
+}
+
+.product-item-list-image {
+  max-width: 10vh;
 }
