@@ -65,7 +65,7 @@ const ProductList = () => {
               </div>
               <div className="data">
                 <h3>{product.attributes.title}</h3>
-                <p>{product.attributes.description}</p>
+                <p>{product.attributes.description.length >= 41?product.attributes.description.length.substring(0,40):product.attributes.description.length}</p>
                 <p>Цена: {product.attributes.solar}</p>
               </div>
 
