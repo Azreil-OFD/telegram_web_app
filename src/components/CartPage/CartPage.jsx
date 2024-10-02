@@ -40,32 +40,46 @@ const CartPage = () => {
       .filter((item) => item.quantity > 0); // Удаляем товары с количеством 0
     setCart(updatedCart);
   };
-
-  useEffect(() => {
-    tg.MainButton.setText('Оформить заявку!');
-    tg.MainButton.show()
-    const handleAddToCart = () => {
-      tg.close()
+  const handleCreateOrder = async () => {
+    const userData = await fetch(`https://azreil-ofj-backend-tg-c56e.twc1.net/v1/bot-users?filters%5Btelegram_id%5D%5B%24eq%5D=${tg.initDataUnsafe.user.id}`, {
+      method: "GET"
+    })
+    const user = await userData.json()
+    if (user.data.length === 1) {
       const options = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'User-Agent': 'insomnia/10.0.0' },
         body: { "data": { customer: -1, "accepted": false, "send": false, "received": false, products: [] } }
       };
-      console.log(tg.initDataUnsafe.user.id)
-      cart.forEach((e) => {
-        options.body.products.push({
-          produkty: e.id,
-          weight: e.weight 
+      options.body.data.customer = user.data[0].id
+      options.body.data.products = await cart.map(e => ({
+        produkty: e.id,
+        weight: e.weight
+      }))
+      options.body = JSON.stringify(options.body)
+      const resultData = await fetch(`https://azreil-ofj-backend-tg-c56e.twc1.net/v1/sales`, options)
+      const result = await result.json();
+      if (resultData.ok) {
+        await fetch(`https://azreil-ofj-backend-tg-c56e.twc1.net/v1/telegram/success`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'User-Agent': 'insomnia/10.0.0' },
+          body: { "data": { id: tg.initDataUnsafe.user.id, orderId: result.data.id } }
         })
-      })
+        tg.close()
+        setCart([])
+      }
+    }
 
-      setCart([])
-    };
+  };
+  useEffect(() => {
+    tg.MainButton.setText('Оформить заявку!');
+    tg.MainButton.show()
 
-    tg.MainButton.onClick(handleAddToCart);
+
+    tg.MainButton.onClick(handleCreateOrder);
 
     return () => {
-      tg.MainButton.offClick(handleAddToCart);
+      tg.MainButton.offClick(handleCreateOrder);
     };
   }, [tg]);
 
@@ -81,7 +95,7 @@ const CartPage = () => {
               return (
                 <li key={product.id} className="cart-item">
                   <img
-                    src={BASE_URL + product.images.data[0]?.attributes.formats.thumbnail.url}
+                    src={product.images.data[0]?.attributes.formats.thumbnail.url}
                     alt={product.title}
                     className="cart-item-image"
                   />
