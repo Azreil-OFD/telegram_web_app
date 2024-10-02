@@ -65,7 +65,7 @@ const CartPage = () => {
         await fetch(`https://azreil-ofj-backend-tg-c56e.twc1.net/v1/telegram/success`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'User-Agent': 'insomnia/10.0.0' },
-          body: JSON.stringify({ id: tg.initDataUnsafe.user.id, orderId: formatNumber(Number(result.data.id)) })
+          body: JSON.stringify({ id: tg.initDataUnsafe.user.id, orderId: formatNumber(Number(result.data.id)), orderUnsafeId: result.data.id })
         })
         tg.close()
         setCart([])
