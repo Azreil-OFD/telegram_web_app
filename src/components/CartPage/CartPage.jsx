@@ -6,7 +6,7 @@ import { useTelegram } from '../../hooks/useTelegram';
 const CartPage = () => {
 
 
-  
+
   const BASE_URL = "https://azreil-ofj-backend-tg-c56e.twc1.net";
   const [cart, setCart] = useLocalStorage('cart', []);
   const { tg } = useTelegram();
@@ -42,10 +42,23 @@ const CartPage = () => {
   };
 
   useEffect(() => {
-    tg.MainButton.setText('Оставить заявку');
-
+    tg.MainButton.setText('Оформить заявку!');
+    tg.MainButton.show()
     const handleAddToCart = () => {
       tg.close()
+      const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'User-Agent': 'insomnia/10.0.0' },
+        body: { "data": { customer: -1, "accepted": false, "send": false, "received": false, products: [] } }
+      };
+      console.log(tg.initDataUnsafe.user.id)
+      cart.forEach((e) => {
+        options.body.products.push({
+          produkty: e.id,
+          weight: e.weight 
+        })
+      })
+
       setCart([])
     };
 
@@ -60,7 +73,7 @@ const CartPage = () => {
     <div className="cart-page">
       <h1 className="page-title">Корзина</h1>
       {cart.length === 0 ? (
-        <><h1 className="empty-cart">Тут пусто :{"("}</h1><br/></>
+        <><h1 className="empty-cart">Тут пусто :{"("}</h1><br /></>
       ) : (
         <ul className="cart-items">
           {cart.map((product) => {
@@ -68,10 +81,10 @@ const CartPage = () => {
               return (
                 <li key={product.id} className="cart-item">
                   <img
-                      src={BASE_URL + product.images.data[0]?.attributes.formats.thumbnail.url}
-                      alt={product.title}
-                      className="cart-item-image"
-                    />
+                    src={BASE_URL + product.images.data[0]?.attributes.formats.thumbnail.url}
+                    alt={product.title}
+                    className="cart-item-image"
+                  />
                   <div className="cart-item-info">
                     <h2 className="cart-item-title">{product.title}</h2>
                     <p className="cart-item-description">{product.description}</p>
