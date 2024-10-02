@@ -56,9 +56,9 @@ const CartPage = () => {
       options.body.data.customer = user.data[0].id
       const saveCart = await cart.map(e => ({
         produkty: e.id,
-            title: e.title,
-            weight: e.weight,
-            quantity: e.quantity
+        title: e.title,
+        weight: e.weight,
+        quantity: e.quantity
       }))
       options.body.data.products = await cart.map(e => ({
         produkty: e.id,
@@ -121,17 +121,19 @@ const CartPage = () => {
                     </p>
                     <div className="cart-item-actions">
                       <button
-                        className="cart-item-add"
-                        onClick={() => addToCart(product.id, product.weight)}
-                      >
-                        +
-                      </button>
-                      <button
                         className="cart-item-remove"
                         onClick={() => removeFromCart(product.id, product.weight)}
                       >
                         -
                       </button>
+
+                      <button
+                        className="cart-item-add"
+                        onClick={() => addToCart(product.id, product.weight)}
+                      >
+                        +
+                      </button>
+
                     </div>
                   </div>
                 </li>
@@ -146,7 +148,7 @@ const CartPage = () => {
       <div>
         <h3>Общая стоимость: {totalCost.toFixed(2)} ₽</h3>
       </div>
-      <button type="button" onClick={handleCreateOrder}>press</button>
+
     </div>
   );
 };
