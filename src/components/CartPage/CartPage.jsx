@@ -27,7 +27,9 @@ const CartPage = () => {
     });
     setCart(updatedCart);
   };
-
+  function formatNumber(number) {
+    return number.toString().padStart(6, '0');
+  }
   // Function to remove a product from the cart
   const removeFromCart = (productId, weight) => {
     const updatedCart = cart
@@ -58,12 +60,12 @@ const CartPage = () => {
       }))
       options.body = JSON.stringify(options.body)
       const resultData = await fetch(`https://azreil-ofj-backend-tg-c56e.twc1.net/v1/sales`, options)
-      const result = await result.json();
+      const result = await resultData.json();
       if (resultData.ok) {
         await fetch(`https://azreil-ofj-backend-tg-c56e.twc1.net/v1/telegram/success`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'User-Agent': 'insomnia/10.0.0' },
-          body: { "data": { id: tg.initDataUnsafe.user.id, orderId: result.data.id } }
+          body: JSON.stringify({ id: tg.initDataUnsafe.user.id, orderId: formatNumber(Number(result.data.id)) })
         })
         tg.close()
         setCart([])
@@ -76,11 +78,11 @@ const CartPage = () => {
     tg.MainButton.show()
 
 
-    tg.MainButton.onClick(handleCreateOrder);
-
-    return () => {
-      tg.MainButton.offClick(handleCreateOrder);
-    };
+    tg.MainButton.onClick(() => {
+      (async () => {
+        await handleCreateOrder()
+      })()
+    });
   }, [tg]);
 
   return (
@@ -138,6 +140,7 @@ const CartPage = () => {
       <div>
         <h3>Общая стоимость: {totalCost.toFixed(2)} ₽</h3>
       </div>
+      <button type="button" onClick={handleCreateOrder}>press</button>
     </div>
   );
 };

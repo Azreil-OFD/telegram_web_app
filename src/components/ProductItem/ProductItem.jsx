@@ -8,6 +8,7 @@ import { useTelegram } from "./../../hooks/useTelegram";
 import Select from "./../Select/Select";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import Button from "./../Button/Button";
+import { useNavigate } from "react-router-dom";
 
 const ProductItem = () => {
   const [cart, setCart] = useLocalStorage("cart", []);
@@ -17,6 +18,7 @@ const ProductItem = () => {
   const { tg } = useTelegram();
   const [success, setSuccess] = useState(false);
   const [loading , setLoading]= useState(true)
+  const navigate = useNavigate();
   const totalPrice = useMemo(() => {
     return product ? (product.attributes.solar / 50) * weight : 0;
   }, [product, weight]);
@@ -25,6 +27,7 @@ const ProductItem = () => {
     addToCart({id: product.id,  ...product.attributes, weight });
     setWeight(0);
     setSuccess(true);
+    navigate("/")
   };
 
   // Функция для добавления продукта в корзину
@@ -103,7 +106,7 @@ const ProductItem = () => {
             {product.attributes.images.data.map((image, index) => (
               <div key={index}>
                 <img
-                  src={BASE_URL + image.attributes.url}
+                  src={image.attributes.url}
                   alt={product.attributes.title}
                   className="product-image"
                 />
@@ -115,7 +118,7 @@ const ProductItem = () => {
           product.attributes.images.data.map((image, index) => (
             <div key={index}>
               <img
-                src={BASE_URL + image.attributes.url}
+                src={image.attributes.url}
                 alt={product.attributes.title}
                 className="product-image"
               />
@@ -133,19 +136,6 @@ const ProductItem = () => {
         </p>
 
         <div className="total">Итоговая стоимость: {totalPrice}₽</div>
-
-        {success && (
-          <>
-            <div className="success">
-              <p>
-                <b>Товар добавлен в корзину!</b>
-                <br /> Можете заказать в иной граммовке, выбрать другой товар или оформить заказ
-                через корзину!
-              </p>
-            </div>
-          </>
-        )}
-
         <br />
         <br />
         <p>

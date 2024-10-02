@@ -57,7 +57,7 @@ const ProductList = () => {
               {product.attributes.images.data.length > 0 && (
                 <img
                   src={
-                    BASE_URL +
+                    
                     product.attributes.images.data[0].attributes.formats.thumbnail
                       .url
                   }
