@@ -7,19 +7,27 @@ const ProductList = () => {
   const { categoryID } = useParams(); // Получаем categoryID из URL
   const [products, setProducts] = useState([]);
   const navigate = useNavigate(); // Для навигации при клике на продукт
-  const { tg } = useTelegram()
-  tg.MainButton.hide()
+  const { tg } = useTelegram();
+  const [loading , setLoading]= useState(true)
+
+  tg.MainButton.hide();
+
   useEffect(() => {
+    setLoading(true)
     // Загружаем данные категорий с продуктами
-    fetch(`https://committed-victory-e015be0776.strapiapp.com/api/categories?populate[products][populate]=images`)
+    fetch(
+      `https://azreil-ofj-backend-tg-c56e.twc1.net/v1/categories?populate[products][populate]=images`
+    )
       .then((response) => response.json())
       .then((data) => {
-        const category = data.data.find(category => category.id === parseInt(categoryID));
+        const category = data.data.find(
+          (category) => category.id === parseInt(categoryID)
+        );
         if (category) {
-          setProducts(category.products);
+          setProducts(category.attributes.products.data);
         }
       })
-      .catch((error) => console.error("Error fetching products:", error));
+      .catch((error) => console.error("Error fetching products:", error)).finally(() => setLoading(false));
   }, [categoryID]);
 
   // Функция для обработки клика по продукту
@@ -27,6 +35,10 @@ const ProductList = () => {
     navigate(`/category/${categoryID}/${productID}`);
   };
 
+  const BASE_URL = "https://azreil-ofj-backend-tg-c56e.twc1.net";
+  if(loading) {
+    return ( <h1 className="page-title">Загрузка...</h1>)
+  }
   return (
     <>
       <h1 className="page-title">Товары</h1>
@@ -39,13 +51,17 @@ const ProductList = () => {
               className="product-item"
               onClick={() => handleProductClick(product.id)}
             >
-              <h3>{product.title}</h3>
-              <p>{product.description}</p>
-              <p>Цена: {product.solar}</p>
-              {product.images.length > 0 && (
+              <h3>{product.attributes.title}</h3>
+              <p>{product.attributes.description}</p>
+              <p>Цена: {product.attributes.solar}</p>
+              {product.attributes.images.data.length > 0 && (
                 <img
-                  src={product.images[0].formats.thumbnail.url}
-                  alt={product.title}
+                  src={
+                    BASE_URL +
+                    product.attributes.images.data[0].attributes.formats.thumbnail
+                      .url
+                  }
+                  alt={product.attributes.title}
                   className="product-image"
                 />
               )}
@@ -54,7 +70,8 @@ const ProductList = () => {
         ) : (
           <p>Нет доступных продуктов</p>
         )}
-      </div></>
+      </div>
+    </>
   );
 };
 

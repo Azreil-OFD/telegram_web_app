@@ -3,12 +3,6 @@
     background-color: var(--tg-theme-bg-color);
     color: var(--tg-theme-text-color);
 }
-
-.cart-page-title {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
 .empty-cart {
     text-align: center;
     font-size: 18px;

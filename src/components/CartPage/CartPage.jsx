@@ -4,6 +4,10 @@ import { useLocalStorage } from '@uidotdev/usehooks';
 import { useTelegram } from '../../hooks/useTelegram';
 
 const CartPage = () => {
+
+
+  
+  const BASE_URL = "https://azreil-ofj-backend-tg-c56e.twc1.net";
   const [cart, setCart] = useLocalStorage('cart', []);
   const { tg } = useTelegram();
 
@@ -54,9 +58,9 @@ const CartPage = () => {
 
   return (
     <div className="cart-page">
-      <h1 className="cart-page-title">Корзина</h1>
+      <h1 className="page-title">Корзина</h1>
       {cart.length === 0 ? (
-        <p className="empty-cart">Тут пусто :{"("}</p>
+        <><h1 className="empty-cart">Тут пусто :{"("}</h1><br/></>
       ) : (
         <ul className="cart-items">
           {cart.map((product) => {
@@ -64,10 +68,10 @@ const CartPage = () => {
               return (
                 <li key={product.id} className="cart-item">
                   <img
-                    src={product.images[0]?.formats.thumbnail.url}
-                    alt={product.title}
-                    className="cart-item-image"
-                  />
+                      src={BASE_URL + product.images.data[0]?.attributes.formats.thumbnail.url}
+                      alt={product.title}
+                      className="cart-item-image"
+                    />
                   <div className="cart-item-info">
                     <h2 className="cart-item-title">{product.title}</h2>
                     <p className="cart-item-description">{product.description}</p>

@@ -5,35 +5,43 @@ import { useTelegram } from "../../hooks/useTelegram";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
-  const { tg } = useTelegram()
-  tg.MainButton.hide()
+  const { tg } = useTelegram();
+  const [loading , setLoading]= useState(true)
+
+  tg.MainButton.hide();
+
   useEffect(() => {
-    fetch("https://committed-victory-e015be0776.strapiapp.com/api/categories?populate[products][populate]=images")
+    setLoading(true)
+    fetch(
+      "https://azreil-ofj-backend-tg-c56e.twc1.net/v1/categories?populate[products][populate]=images"
+    )
       .then((response) => response.json())
       .then((data) => {
         // Фильтруем категории, у которых есть продукты
         const filteredCategories = data.data.filter(
-          (category) => category.products.length > 0
+          (category) => category.attributes.products.data.length > 0
         );
         setCategories(filteredCategories);
       })
-      .catch((error) => console.error("Error fetching categories:", error));
+      .catch((error) => console.error("Error fetching categories:", error)).finally(() => setLoading(false));
   }, []);
-
+  if (loading) {
+    return (<h1 className="page-title">Загрузка...</h1>)
+  }
   return (
-   <>
-    <h1 className="page-title">Категории</h1>
-    <div className="category-list">
-      {categories.map((category) => (
-        <Link
-          key={category.id}
-          to={`/category/${category.id}`}
-          className="category-item"
-        >
-          {category.title}
-        </Link>
-      ))}
-    </div>
+    <>
+      <h1 className="page-title">Категории</h1>
+      <div className="category-list">
+        {categories.map((category) => (
+          <Link
+            key={category.id}
+            to={`/category/${category.id}`}
+            className="category-item"
+          >
+            {category.attributes.title}
+          </Link>
+        ))}
+      </div>
     </>
   );
 };
