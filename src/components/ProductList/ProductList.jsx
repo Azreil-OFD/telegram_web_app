@@ -48,7 +48,7 @@ const ProductList = () => {
           products.map((product) => (
             <div
               key={product.id}
-              className="product-item"
+              className="product-item-list"
               onClick={() => handleProductClick(product.id)}
             >
               <div className="image">

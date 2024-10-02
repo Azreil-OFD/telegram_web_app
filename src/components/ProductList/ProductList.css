@@ -5,7 +5,7 @@
     gap: 20px;
     background-color: var(--tg-theme-bg-color);
   }
-.product-item {
+.product-item-list {
   display: flex;
   align-items: center;
   gap: 2vh;
