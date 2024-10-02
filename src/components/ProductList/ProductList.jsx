@@ -8,7 +8,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate(); // Для навигации при клике на продукт
   const { tg } = useTelegram();
-  const [loading , setLoading]= useState(true)
+  const [loading, setLoading] = useState(true)
 
   tg.MainButton.hide();
 
@@ -36,8 +36,8 @@ const ProductList = () => {
   };
 
   const BASE_URL = "https://azreil-ofj-backend-tg-c56e.twc1.net";
-  if(loading) {
-    return ( <h1 className="page-title">Загрузка...</h1>)
+  if (loading) {
+    return (<h1 className="page-title">Загрузка...</h1>)
   }
   return (
     <>
@@ -51,20 +51,24 @@ const ProductList = () => {
               className="product-item"
               onClick={() => handleProductClick(product.id)}
             >
-              <h3>{product.attributes.title}</h3>
-              <p>{product.attributes.description}</p>
-              <p>Цена: {product.attributes.solar}</p>
-              {product.attributes.images.data.length > 0 && (
-                <img
-                  src={
-                    
-                    product.attributes.images.data[0].attributes.formats.thumbnail
-                      .url
-                  }
-                  alt={product.attributes.title}
-                  className="product-image"
-                />
-              )}
+              <div className="image">
+                {product.attributes.images.data.length > 0 && (
+                  <img
+                    src={
+                      product.attributes.images.data[0].attributes.formats.thumbnail
+                        .url
+                    }
+                    alt={product.attributes.title}
+                    className="product-image"
+                  />
+                )}
+              </div>
+              <div className="data">
+                <h3>{product.attributes.title}</h3>
+                <p>{product.attributes.description}</p>
+                <p>Цена: {product.attributes.solar}</p>
+              </div>
+
             </div>
           ))
         ) : (

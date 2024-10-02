@@ -3,7 +3,10 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    padding: 10px;
     background-color: var(--tg-theme-bg-color);
   }
-  
+.product-item {
+  display: flex;
+  align-items: center;
+  gap: 2vh;
+}
