@@ -27,6 +27,7 @@ const ProductItem = () => {
     addToCart({id: product.id,  ...product.attributes, weight });
     setWeight(0);
     setSuccess(true);
+    tg.MainButton.hide()
     navigate("/")
   };
 
@@ -74,6 +75,13 @@ const ProductItem = () => {
         }
       })
       .catch((error) => console.error("Error fetching product:", error)).finally(() => setLoading(false));
+      tg.MainButton.setText('Оформить заявку!');
+      tg.MainButton.onClick(() => {
+        (async () => {
+          await handleAddToCart()
+        })()
+      });
+
   }, [categoryID, productID]);
   if (loading) {
     return (<h1 className="page-title">Загрузка...</h1>)
@@ -86,7 +94,13 @@ const ProductItem = () => {
     setSuccess(false);
     setWeight(_weight);
   };
-
+  useEffect(() => {
+    if(totalPrice !== 0) {
+      tg.MainButton.show()
+    } else [
+      tg.MainButton.hide()
+    ]
+  } , [totalPrice])
   // Настройки для слайдера
   const sliderSettings = {
     dots: true,
@@ -143,23 +157,7 @@ const ProductItem = () => {
         </p>
         <Select start={50} end={1000} step={50} onSelect={onSelect}></Select>
       </div>
-      <div
-        style={{ position: "fixed", bottom: "10px", left: "10px", right: "10px" }}
-      >
-        {totalPrice !== 0 && (
-          <Button
-            style={{
-              width: "100%",
-              padding: "10px",
-              borderRadius: "8px",
-              border: "black solid 1px",
-            }}
-            onClick={handleAddToCart}
-          >
-            Добавить в корзину
-          </Button>
-        )}
-      </div>
+      
     </>
   );
 };
