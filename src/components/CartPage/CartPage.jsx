@@ -4,9 +4,6 @@ import { useLocalStorage } from '@uidotdev/usehooks';
 import { useTelegram } from '../../hooks/useTelegram';
 
 const CartPage = () => {
-
-
-
   const BASE_URL = "https://azreil-ofj-backend-tg-c56e.twc1.net";
   const [cart, setCart] = useLocalStorage('cart', []);
   const { tg } = useTelegram();
@@ -81,7 +78,7 @@ const CartPage = () => {
   };
   useEffect(() => {
     tg.MainButton.setText('Оформить заявку!');
-    tg.MainButton.show()
+
 
 
     tg.MainButton.onClick(() => {
@@ -90,7 +87,13 @@ const CartPage = () => {
       })()
     });
   }, [tg]);
-
+  useEffect(() => {
+    if(!cart.length) {
+      tg.MainButton.hide()
+    } else {
+      tg.MainButton.show()
+    }
+  }, [cart]);
   return (
     <div className="cart-page">
       <h1 className="page-title">Корзина</h1>
