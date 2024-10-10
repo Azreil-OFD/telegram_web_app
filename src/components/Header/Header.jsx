@@ -9,6 +9,7 @@ const Header = (props) => {
     const location = useLocation();  // Хук для получения текущего маршрута
     const navigate = useNavigate();  // Хук для навигации
     const [cart, setCart] = useLocalStorage('cart', [])
+    const [title, setTitle] = useLocalStorage('title', "")
     const isIndexPage = location.pathname === "/";
     const isCartPage = location.pathname === "/cart";
 
@@ -20,7 +21,7 @@ const Header = (props) => {
     };
     return (
         <div className={'header'}>
-            <h2>Магазин грибочков</h2>
+            <h2>{title}</h2>
             {(cart.length !== 0) && (
                 !isCartPage && (
                     <button className="back-button" onClick={handleCart} style={{

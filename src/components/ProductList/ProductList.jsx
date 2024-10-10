@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./ProductList.css";
 import { useTelegram } from "../../hooks/useTelegram";
+import {useLocalStorage} from "@uidotdev/usehooks";
 
 const ProductList = () => {
   const { categoryID } = useParams(); // Получаем categoryID из URL
@@ -9,6 +10,7 @@ const ProductList = () => {
   const navigate = useNavigate(); // Для навигации при клике на продукт
   const { tg } = useTelegram();
   const [loading, setLoading] = useState(true)
+    const [title, setTitle] = useLocalStorage('title', "")
 
   tg.MainButton.hide();
 
@@ -25,9 +27,11 @@ const ProductList = () => {
         );
         if (category) {
           setProducts(category.attributes.products.data);
+          setTitle(category.attributes.title)
         }
       })
       .catch((error) => console.error("Error fetching products:", error)).finally(() => setLoading(false));
+
   }, [categoryID]);
 
   // Функция для обработки клика по продукту
