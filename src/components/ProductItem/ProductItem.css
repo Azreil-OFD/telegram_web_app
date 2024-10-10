@@ -1,40 +1,41 @@
 .product-item {
-    background-color: var(--tg-theme-bg-color);
-    color: var(--tg-theme-text-color);
-    border: 1px solid var(--tg-theme-hint-color);
-    border-radius: 8px;
-    padding: 15px;
-    width: 100%;
-    max-width: 250px;
-    text-align: start;
-    margin-bottom: 20px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: var(--tg-theme-bg-color);
+  color: var(--tg-theme-text-color);
+  border: 1px solid var(--tg-theme-hint-color);
+  border-radius: 8px;
+  padding: 15px;
+  width: 100%;
+  max-width: 250px;
+  text-align: start;
+  margin-bottom: 20px;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
-
 .product-image {
-    width: 100%;
-    height: auto;
-    margin-top: 10px;
-    border-radius: 5px;
-    border: 1px solid var(--tg-theme-hint-color);
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--tg-theme-hint-color);
 }
 
 .product-item {
-    max-width: 95%;
-    margin: 0 auto;
+  max-width: 95%;
+  margin: 0 auto;
 }
 
 .slick-slider {
-    max-width: 100%;
-    margin-bottom: 4vh;
+  max-width: 100%;
+  margin-bottom: 4vh;
 }
 
 .slick-slide img {
-    display: block;
-    margin: 0 auto;
-    max-width: 100%;
-    /* Чтобы изображение было пропорционально */
-    height: auto;
-    /* Изображения не должны быть искажены */
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  /* Чтобы изображение было пропорционально */
+  height: auto;
+  /* Изображения не должны быть искажены */
 }

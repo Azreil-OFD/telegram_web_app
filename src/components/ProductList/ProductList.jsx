@@ -2,36 +2,36 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./ProductList.css";
 import { useTelegram } from "../../hooks/useTelegram";
-import {useLocalStorage} from "@uidotdev/usehooks";
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 const ProductList = () => {
   const { categoryID } = useParams(); // Получаем categoryID из URL
   const [products, setProducts] = useState([]);
   const navigate = useNavigate(); // Для навигации при клике на продукт
   const { tg } = useTelegram();
-  const [loading, setLoading] = useState(true)
-    const [title, setTitle] = useLocalStorage('title', "")
+  const [loading, setLoading] = useState(true);
+  const [title, setTitle] = useLocalStorage("title", "");
 
   tg.MainButton.hide();
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     // Загружаем данные категорий с продуктами
     fetch(
-      `https://azreil-ofj-backend-tg-c56e.twc1.net/v1/categories?populate[products][populate]=images`
+      `https://azreil-ofj-backend-tg-c56e.twc1.net/v1/categories?populate[products][populate]=images`,
     )
       .then((response) => response.json())
       .then((data) => {
         const category = data.data.find(
-          (category) => category.id === parseInt(categoryID)
+          (category) => category.id === parseInt(categoryID),
         );
         if (category) {
           setProducts(category.attributes.products.data);
-          setTitle(category.attributes.title)
+          setTitle(category.attributes.title);
         }
       })
-      .catch((error) => console.error("Error fetching products:", error)).finally(() => setLoading(false));
-
+      .catch((error) => console.error("Error fetching products:", error))
+      .finally(() => setLoading(false));
   }, [categoryID]);
 
   // Функция для обработки клика по продукту
@@ -41,7 +41,7 @@ const ProductList = () => {
 
   const BASE_URL = "https://azreil-ofj-backend-tg-c56e.twc1.net";
   if (loading) {
-    return (<h1 className="page-title">Загрузка...</h1>)
+    return <h1 className="page-title">Загрузка...</h1>;
   }
   return (
     <>
@@ -54,13 +54,16 @@ const ProductList = () => {
               key={product.id}
               className="product-item-list"
               onClick={() => handleProductClick(product.id)}
+              onKeyDown={() => {}}
+              role={"button"}
+              tabIndex={0}
             >
               <div className="product-item-list-image">
                 {product.attributes.images.data.length > 0 && (
                   <img
                     src={
-                      product.attributes.images.data[0].attributes.formats.thumbnail
-                        .url
+                      product.attributes.images.data[0].attributes.formats
+                        .thumbnail.url
                     }
                     alt={product.attributes.title}
                     className="product-image"
@@ -69,10 +72,13 @@ const ProductList = () => {
               </div>
               <div className="data">
                 <h3>{product.attributes.title}</h3>
-                <p>{product.attributes.description.length >= 41 ? product.attributes.description.substring(0, 40) : product.attributes.description.length}</p>
+                <p>
+                  {product.attributes.description.length >= 41
+                    ? product.attributes.description.substring(0, 40)
+                    : product.attributes.description.length}
+                </p>
                 <p>Цена: {product.attributes.solar}</p>
               </div>
-
             </div>
           ))
         ) : (
