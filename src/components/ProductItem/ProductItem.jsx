@@ -73,11 +73,7 @@ const ProductItem = () => {
 
     fetchData();
     tg.MainButton.setText('Оформить заявку!');
-    tg.MainButton.onClick(() => {
-      (async () => {
-        await handleAddToCart()
-      })()
-    });
+    tg.MainButton.onClick(handleAddToCart);
 
   }, [categoryID, productID]);
 
@@ -132,7 +128,23 @@ const ProductItem = () => {
 
         <p><b>Выберите граммовку</b></p>
         <Select start={50} end={1000} step={50} onSelect={onSelect} />
-
+        <div
+            style={{ position: "fixed", bottom: "10px", left: "10px", right: "10px" }}
+        >
+          {totalPrice !== 0 && (
+              <Button
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    borderRadius: "8px",
+                    border: "black solid 1px",
+                  }}
+                  onClick={handleAddToCart}
+              >
+                Добавить в корзину
+              </Button>
+          )}
+        </div>
 
       </div>
   );
