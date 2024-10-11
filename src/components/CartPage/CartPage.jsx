@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./CartPage.css"; // Assume you have some basic Telegram Mini App CSS variables
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useTelegram } from "../../hooks/useTelegram";
+// TODO: Перед тем как дать возможность нажать кнопку оформления, проверить наличие товара
 
 const CartPage = () => {
   const BASE_URL = "https://azreil-ofj-backend-tg-c56e.twc1.net";

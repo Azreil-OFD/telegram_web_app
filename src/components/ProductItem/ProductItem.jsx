@@ -9,6 +9,8 @@ import Select from "./../Select/Select";
 import { useLocalStorage } from "@uidotdev/usehooks";
 
 const BASE_URL = "https://azreil-ofj-backend-tg-c56e.twc1.net";
+// TODO: Добавить информацию о наличии товара
+
 const ProductItem = () => {
   const [cart, setCart] = useLocalStorage("cart", []);
   const { categoryID, productID } = useParams();
