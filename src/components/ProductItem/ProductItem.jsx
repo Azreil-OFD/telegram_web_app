@@ -72,6 +72,7 @@ const ProductItem = () => {
           );
           setProduct(foundProduct || null);
           setTitle(foundProduct.attributes.title);
+          console.log(product)
           if (!foundProduct) {
             navigate("/");
           }
@@ -84,9 +85,9 @@ const ProductItem = () => {
     };
 
     fetchProduct();
-    tg.MainButton.setText("Оформить заявку!");
+    tg.MainButton.setText("Добавит в корзину!");
     tg.MainButton.onClick(handleAddToCart);
-  }, [categoryID, productID, tg]);
+  }, [tg]);
 
   useEffect(() => {
     if (totalPrice !== 0) tg.MainButton.show();
