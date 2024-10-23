@@ -157,11 +157,8 @@ const ProductItem = () => {
           <b>Цена: </b> {product.attributes.solar}₽ / 50 гр
         </p>
         <div className="total">Итоговая стоимость: {Math.trunc(totalPrice)}₽</div>
-        <br />
-        <p>
-          <b>Укажите грамовку</b>
-          <Select start={50} end={1000} step={50} onSelect={onSelect} />
-        </p>
+
+        <Select start={50} end={1000} step={50} onSelect={onSelect} />
         <ErrorModal isOpen={isModalOpen} onClose={isModalClose}></ErrorModal>
       </div>
       {visible && (<button
