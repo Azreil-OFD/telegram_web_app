@@ -80,11 +80,12 @@ const CartPage = () => {
         weight: e.weight,
         quantity: e.quantity,
       }));
-      options.body.data.products = cart.map((e) => ({
+      options.body.data.products = saveCart.map((e) => ({
         produkty: e.id,
         weight: e.weight,
         quantity: e.quantity,
       }));
+      console.log(options.body)
       options.body = JSON.stringify(options.body);
       const resultData = await fetch(
         `https://azreil-ofj-backend-tg-c56e.twc1.net/v1/sales`,
