@@ -68,11 +68,7 @@ const ProductItem = () => {
 
     setCart(updatedCart);
   };
-
-
-
-
-  useEffect(() => {
+  useEffect(async () => {
     const fetchProduct = async () => {
       setLoading(true);
       try {
@@ -110,10 +106,9 @@ const ProductItem = () => {
         console.error("Error fetching product:", error);
       } finally {
         setLoading(false);
-
       }
     };
-    fetchProduct();
+    await fetchProduct();
   }, [tg]);
 
   useEffect(() => {
