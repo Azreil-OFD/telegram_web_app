@@ -28,6 +28,7 @@ const ProductItem = () => {
   }, [product, weight]);
 
   const addToCart = (productToAdd) => {
+    console.log(productToAdd)
     const existingProduct = cart.find(
       (item) =>
         item.id === productToAdd.id && item.weight === productToAdd.weight,
@@ -45,6 +46,7 @@ const ProductItem = () => {
   };
 
   const handleAddToCart = async () => {
+    console.log(product)
     addToCart({ id: product.id, ...product.attributes, weight });
     setWeight(0);
     setSuccess(true);
