@@ -8,6 +8,7 @@ import { useTelegram } from "../../hooks/useTelegram";
 import Select from "./../Select/Select";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import Button from './../Button/Button';
+import ErrorModal from './../ErrorModal/ErrorModal';
 
 const BASE_URL = "https://azreil-ofj-backend-tg-c56e.twc1.net";
 // TODO: Добавить информацию о наличии товара
@@ -22,7 +23,13 @@ const ProductItem = () => {
   const [visible, setVisible] = useState(true)
   const { tg } = useTelegram();
   const [title, setTitle] = useLocalStorage("title", "");
+  const [isModalOpen , setIsModalOpen] = useState(false)
   const [In_stock, setIn_stock] = useState(true)
+
+  const isModalClose = () => {
+    setIsModalOpen(false)
+  }
+
   const navigate = useNavigate();
   const themeParams = tg.themeParams;
   const handleAddToCart = async () => {
@@ -31,7 +38,7 @@ const ProductItem = () => {
       return;
     }
     if (!product.attributes.In_stock) {
-      alert("Товар отсутствует на складе");
+      setIsModalOpen(true)
       return;
     }
     addToCart({ id: product.id, ...product.attributes, weight });
@@ -155,7 +162,7 @@ const ProductItem = () => {
           <b>Укажите грамовку</b>
           <Select start={50} end={1000} step={50} onSelect={onSelect} />
         </p>
-
+        <ErrorModal isOpen={isModalOpen} onClose={isModalClose}></ErrorModal>
       </div>
       {visible && (<button
         style={{
