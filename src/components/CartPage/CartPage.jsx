@@ -198,12 +198,8 @@ const CartPage = () => {
         </ul>
       )}
       <div
-        style={{
-          position: "fixed",
-          bottom: "10px",
-          left: "10px",
-          right: "10px",
-        }}
+        className="cart-total-price"
+   
       >
         <h3>Общая стоимость: {totalCost.toFixed(2)} ₽</h3>
       </div>
