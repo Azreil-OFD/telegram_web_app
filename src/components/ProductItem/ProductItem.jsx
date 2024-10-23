@@ -50,7 +50,10 @@ const ProductItem = () => {
       console.error("Product is null or undefined");
       return;
     }
-
+    if (!product.attributes.In_stock) {
+      alert("Product is null or undefined");
+      return;
+    }
     addToCart({ id: product.id, ...product.attributes, weight });
     setWeight(0);
     setSuccess(true);
@@ -71,7 +74,7 @@ const ProductItem = () => {
         const category = data.data.find(
           (category) => category.id === parseInt(categoryID),
         );
-    
+
         if (category) {
           const foundProduct = category.attributes.products.data.find(
             (product) => product.id === parseInt(productID),
@@ -79,7 +82,7 @@ const ProductItem = () => {
           setProduct(foundProduct);
           setTitle(foundProduct?.attributes?.title || "");
           console.log("Found Product:", foundProduct); // Log the found product
-          if(foundProduct.attributes.In_stock) {
+          if (foundProduct.attributes.In_stock) {
             tg.MainButton.setText("Добавит в корзину!");
             tg.MainButton.onClick(handleAddToCart);
           } else {
@@ -97,15 +100,11 @@ const ProductItem = () => {
         console.error("Error fetching product:", error);
       } finally {
         setLoading(false);
-        
+
       }
     };
-    
-
     fetchProduct();
-
-    
-  }, []);
+  }, [tg]);
 
   useEffect(() => {
     if (totalPrice !== 0) tg.MainButton.show();
@@ -165,6 +164,7 @@ const ProductItem = () => {
         <b>Выберите граммовку</b>
       </p>
       <Select start={50} end={1000} step={50} onSelect={onSelect} />
+      <button onClick={handleAddToCart}>click</button>
     </div>
   );
 };
