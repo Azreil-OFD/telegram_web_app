@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./CartPage.css"; // Assume you have some basic Telegram Mini App CSS variables
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useTelegram } from "../../hooks/useTelegram";
+import CartModal from './../CartModal/CartModal';
 // TODO: Перед тем как дать возможность нажать кнопку оформления, проверить наличие товара
 
 const CartPage = () => {
@@ -9,7 +10,13 @@ const CartPage = () => {
   const [cart, setCart] = useLocalStorage("cart", []);
   const { tg } = useTelegram();
   const [title, setTitle] = useLocalStorage("title", "");
-  
+  const [isModalOpen , setIsModalOpen] = useState(false)
+  const isModalConfirm =async () => {
+    await handleCreateOrder();
+  } 
+  const isModalClose = () => {
+    setIsModalOpen(false)
+  } 
   const totalCost = useMemo(() => {
     return cart.reduce((acc, item) => {
       return acc + (item.weight / 50) * item.solar * item.quantity; // Учитываем количество
@@ -76,6 +83,7 @@ const CartPage = () => {
       options.body.data.products = cart.map((e) => ({
         produkty: e.id,
         weight: e.weight,
+        quantity: e.quantity,
       }));
       options.body = JSON.stringify(options.body);
       const resultData = await fetch(
@@ -111,9 +119,7 @@ const CartPage = () => {
     tg.MainButton.setText("Оформить заявку!");
     tg.MainButton.setParams({ is_active: true });
     tg.MainButton.onClick(() => {
-      (async () => {
-        await handleCreateOrder();
-      })();
+      setIsModalOpen(true)
     });
   }, [tg]);
   useEffect(() => {
@@ -181,6 +187,7 @@ const CartPage = () => {
                       </button>
                     </div>
                   </div>
+                  <CartModal isOpen={isModalOpen} onClose={isModalClose} onConfirm={isModalConfirm}></CartModal>
                 </li>
               );
             } else {
