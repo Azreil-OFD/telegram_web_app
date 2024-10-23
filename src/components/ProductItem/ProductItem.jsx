@@ -36,23 +36,28 @@ const ProductItem = () => {
 
     const updatedCart = existingProduct
       ? cart.map((item) =>
-          item.id === productToAdd.id && item.weight === productToAdd.weight
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        )
+        item.id === productToAdd.id && item.weight === productToAdd.weight
+          ? { ...item, quantity: item.quantity + 1 }
+          : item,
+      )
       : [...cart, { ...productToAdd, quantity: 1 }];
 
     setCart(updatedCart);
   };
 
   const handleAddToCart = async () => {
-    console.log(product)
+    if (!product) {
+      console.error("Product is null or undefined");
+      return;
+    }
+
     addToCart({ id: product.id, ...product.attributes, weight });
     setWeight(0);
     setSuccess(true);
     tg.MainButton.hide();
     navigate("/");
   };
+
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -74,7 +79,11 @@ const ProductItem = () => {
           setTitle(foundProduct.attributes.title);
           console.log(product)
           if (!foundProduct) {
+            setProduct(null);
             navigate("/");
+          } else {
+            setProduct(foundProduct);
+            setTitle(foundProduct.attributes.title);
           }
         }
       } catch (error) {
@@ -112,7 +121,7 @@ const ProductItem = () => {
 
   return (
     <div className="product-item">
-      {product.attributes.images.data.length > 1 ? (
+      {product && product.attributes.images.data.length > 1 ? (
         <Slider {...sliderSettings}>
           {product.attributes.images.data.map((image, index) => (
             <div key={index}>
@@ -125,7 +134,7 @@ const ProductItem = () => {
           ))}
         </Slider>
       ) : (
-        product.attributes.images.data.map((image, index) => (
+        product?.attributes?.images?.data?.map((image, index) => (
           <div key={index}>
             <img
               src={image.attributes.url}
