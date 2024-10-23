@@ -38,7 +38,12 @@ const ProductItem = () => {
     navigate("/");
   };
   if (!isFunctionCalled.current) {
-    tg.MainButton.onClick(handleAddToCart);
+    tg.MainButton.onClick(async () => {
+      console.log(
+        "click"
+      )
+      await handleAddToCart()
+    });
     isFunctionCalled.current = true;
   }
 
@@ -92,6 +97,7 @@ const ProductItem = () => {
           } else {
             tg.MainButton.setParams({ is_active: false });
             tg.MainButton.setText("Нет в наличии!");
+            tg.MainButton.show();
           }
           if (!foundProduct) {
             navigate("/");
