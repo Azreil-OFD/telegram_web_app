@@ -45,7 +45,6 @@ const ProductList = () => {
   }
   return (
     <>
-      <h1 className="page-title">Товары</h1>
 
       <div className="product-list">
         {products.length > 0 ? (

@@ -9,7 +9,7 @@ const CartPage = () => {
   const [cart, setCart] = useLocalStorage("cart", []);
   const { tg } = useTelegram();
   const [title, setTitle] = useLocalStorage("title", "");
-
+  
   const totalCost = useMemo(() => {
     return cart.reduce((acc, item) => {
       return acc + (item.weight / 50) * item.solar * item.quantity; // Учитываем количество
@@ -109,7 +109,7 @@ const CartPage = () => {
   useEffect(() => {
     setTitle("Корзина");
     tg.MainButton.setText("Оформить заявку!");
-
+    tg.MainButton.setParams({ is_active: true });
     tg.MainButton.onClick(() => {
       (async () => {
         await handleCreateOrder();

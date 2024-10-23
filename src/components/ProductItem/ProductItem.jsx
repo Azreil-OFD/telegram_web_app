@@ -20,15 +20,16 @@ const ProductItem = () => {
   const [success, setSuccess] = useState(false);
   const { tg } = useTelegram();
   const [title, setTitle] = useLocalStorage("title", "");
+  const [In_stock , setIn_stock] = useState(true)
   const isFunctionCalled = useRef(false);
   const navigate = useNavigate();
   const handleAddToCart = async () => {
     if (!product) {
-      console.error("Product is null or undefined");
+      console.error("Продукт не найден");
       return;
     }
     if (!product.attributes.In_stock) {
-      alert("Product is null or undefined");
+      alert("Товар отсутствует на складе");
       return;
     }
     addToCart({ id: product.id, ...product.attributes, weight });
@@ -37,15 +38,13 @@ const ProductItem = () => {
     tg.MainButton.hide();
     navigate("/");
   };
-  if (!isFunctionCalled.current) {
-    tg.MainButton.onClick(async () => {
-      console.log(
-        "click"
-      )
-      await handleAddToCart()
-    });
-    isFunctionCalled.current = true;
-  }
+  
+  useEffect(() => {
+    if (!isFunctionCalled.current) {
+      tg.MainButton.onClick(handleAddToCart);
+      isFunctionCalled.current = true;
+    }
+  }, [handleAddToCart]);
 
   const totalPrice = useMemo(() => {
     return product ? (product.attributes.solar / 50) * weight : 0;
@@ -68,33 +67,27 @@ const ProductItem = () => {
 
     setCart(updatedCart);
   };
-  useEffect(async () => {
+  useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `${BASE_URL}/v1/categories?populate[products][populate]=images`,
+          `${BASE_URL}/v1/categories?populate[products][populate]=images`
         );
         const data = await response.json();
-        console.log("API Response:", data); // Log the full API response
+        console.log("API Response:", data);
         const category = data.data.find(
-          (category) => category.id === parseInt(categoryID),
+          (category) => category.id === parseInt(categoryID)
         );
-
+  
         if (category) {
           const foundProduct = category.attributes.products.data.find(
-            (product) => product.id === parseInt(productID),
+            (product) => product.id === parseInt(productID)
           );
           setProduct(foundProduct);
           setTitle(foundProduct?.attributes?.title || "");
-          console.log("Found Product:", foundProduct); // Log the found product
-          if (foundProduct.attributes.In_stock) {
-            tg.MainButton.setText("Добавит в корзину!");
-          } else {
-            tg.MainButton.setParams({ is_active: false });
-            tg.MainButton.setText("Нет в наличии!");
-            tg.MainButton.show();
-          }
+          console.log("Found Product:", foundProduct);
+          setIn_stock(foundProduct?.attributes?.In_stock || false);
           if (!foundProduct) {
             navigate("/");
           }
@@ -108,13 +101,14 @@ const ProductItem = () => {
         setLoading(false);
       }
     };
-    await fetchProduct();
-  }, [tg]);
+    fetchProduct();
+  }, [categoryID, productID, navigate]);
+  
 
   useEffect(() => {
-    if (totalPrice !== 0) tg.MainButton.show();
+    if (totalPrice > 0) tg.MainButton.show();
     else tg.MainButton.hide();
-  }, [weight]);
+  }, [totalPrice, tg]);
 
   if (loading) return <h1 className="page-title">Загрузка...</h1>;
   if (!product) return <p>Продукт не найден</p>;
@@ -134,7 +128,7 @@ const ProductItem = () => {
 
   return (
     <div className="product-item">
-      {product && product.attributes.images.data.length > 1 ? (
+      {product?.attributes?.images?.data?.length > 1 ? (
         <Slider {...sliderSettings}>
           {product.attributes.images.data.map((image, index) => (
             <div key={index}>
@@ -169,9 +163,10 @@ const ProductItem = () => {
         <b>Выберите граммовку</b>
       </p>
       <Select start={50} end={1000} step={50} onSelect={onSelect} />
-      <button onClick={handleAddToCart}>click</button>
+      <button onClick={handleAddToCart}>Добавить в корзину</button>
     </div>
   );
+  
 };
 
 export default ProductItem;
