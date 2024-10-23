@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useTelegram } from "../../hooks/useTelegram";
 import Select from "./../Select/Select";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import Button from './../Button/Button';
 
 const BASE_URL = "https://azreil-ofj-backend-tg-c56e.twc1.net";
 // TODO: Добавить информацию о наличии товара
@@ -15,14 +16,15 @@ const ProductItem = () => {
   const [cart, setCart] = useLocalStorage("cart", []);
   const { categoryID, productID } = useParams();
   const [product, setProduct] = useState(null);
-  const [weight, setWeight] = useState(null);
+  const [weight, setWeight] = useState(50);
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
+  const [visible, setVisible] = useState(true)
   const { tg } = useTelegram();
   const [title, setTitle] = useLocalStorage("title", "");
-  const [In_stock , setIn_stock] = useState(true)
-  const isFunctionCalled = useRef(false);
+  const [In_stock, setIn_stock] = useState(true)
   const navigate = useNavigate();
+  const themeParams = tg.themeParams;
   const handleAddToCart = async () => {
     if (!product) {
       console.error("Продукт не найден");
@@ -35,16 +37,9 @@ const ProductItem = () => {
     addToCart({ id: product.id, ...product.attributes, weight });
     setWeight(0);
     setSuccess(true);
-    tg.MainButton.hide();
     navigate("/");
   };
-  
-  useEffect(() => {
-    if (!isFunctionCalled.current) {
-      tg.MainButton.onClick(handleAddToCart);
-      isFunctionCalled.current = true;
-    }
-  }, [handleAddToCart]);
+
 
   const totalPrice = useMemo(() => {
     return product ? (product.attributes.solar / 50) * weight : 0;
@@ -79,7 +74,7 @@ const ProductItem = () => {
         const category = data.data.find(
           (category) => category.id === parseInt(categoryID)
         );
-  
+
         if (category) {
           const foundProduct = category.attributes.products.data.find(
             (product) => product.id === parseInt(productID)
@@ -103,7 +98,7 @@ const ProductItem = () => {
     };
     fetchProduct();
   }, [categoryID, productID, navigate]);
-  
+
 
   useEffect(() => {
     if (totalPrice > 0) tg.MainButton.show();
@@ -160,13 +155,34 @@ const ProductItem = () => {
       <div className="total">Итоговая стоимость: {Math.trunc(totalPrice)}₽</div>
       <br />
       <p>
-        <b>Выберите граммовку</b>
+        <b>Укажите грамовку</b>
+        <Select start={50} end={1000} step={50} onSelect={onSelect} />
+
       </p>
-      <Select start={50} end={1000} step={50} onSelect={onSelect} />
-      <button onClick={handleAddToCart}>Добавить в корзину</button>
+      {visible && (<button
+        style={{
+          backgroundColor: themeParams.button_color || "#2AABEE", // Цвет фона кнопки
+          color: themeParams.button_text_color || "#ffffff", // Цвет текста кнопки
+          border: "none",
+          borderRadius: "8px",
+          padding: "12px 16px",
+          fontSize: "16px",
+          fontWeight: "bold",
+          width: "100%",
+          position: "fixed",
+          bottom: "16px",
+          left: "16px",
+          right: "16px",
+          zIndex: 1000,
+        }}
+        onClick={handleAddToCart}
+      >
+        Добавить в корзину
+      </button>)}
     </div>
+
   );
-  
+
 };
 
 export default ProductItem;

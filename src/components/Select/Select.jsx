@@ -2,29 +2,26 @@ import React, { useState } from "react";
 import "./Select.css"; // Файл с кастомными стилями
 
 const Select = ({ start, end, step = 1, onSelect }) => {
-  const [selection, setSelection] = useState(-1);
+  const [selection, setSelection] = useState(start);
 
-  const handleClick = (value) => {
+  const handleChange = (event) => {
+    const value = Number(event.target.value);
     setSelection(value);
-    onSelect(value); // Вызываем переданную функцию
+    onSelect(value);
   };
-
-  const numbers = Array.from(
-    { length: Math.floor((end - start) / step) + 1 },
-    (_, i) => start + i * step,
-  );
 
   return (
     <div className="select-container">
-      {numbers.map((num) => (
-        <button
-          key={num}
-          className={"select-button " + (num === selection ? "selection" : "")}
-          onClick={() => handleClick(num)}
-        >
-          {num} гр.
-        </button>
-      ))}
+      <input
+        type="range"
+        min={start}
+        max={end}
+        step={step}
+        value={selection}
+        onChange={handleChange}
+        className="select-range"
+      />
+      <div className="range-value">{selection} гр.</div>
     </div>
   );
 };

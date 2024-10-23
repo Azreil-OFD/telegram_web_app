@@ -1,31 +1,17 @@
 .select-container {
   display: flex;
-  justify-content: space-between;
-  max-width: max-content;
-  gap: 8px;
+  flex-direction: column;
+  align-items: center;
   padding: 10px;
-  flex-wrap: wrap; /* Добавлено для переноса элементов */
 }
 
-.select-button {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  background-color: var(--tg-theme-button-color, #0088cc);
-  color: var(--tg-theme-button-text-color, #ffffff);
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.select-range {
+  width: 100%;
+  max-width: 300px;
 }
 
-.select-button:hover {
-  background-color: var(--tg-theme-button-color-hover, #006699);
-}
-
-.select-button:active {
-  background-color: var(--tg-theme-button-color-active, #004466);
-}
-
-.selection {
-  background-color: var(--tg-theme-button-color-active, #004466);
+.range-value {
+  margin-top: 10px;
+  font-size: 16px;
+  color: var(--tg-theme-text-color, #000000);
 }
