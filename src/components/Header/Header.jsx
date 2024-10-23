@@ -22,30 +22,32 @@ const Header = (props) => {
   return (
     <div className={"header"}>
       <h2>{title}</h2>
-      {cart.length !== 0 && !isCartPage && (
-        <button
-          className="back-button"
-          onClick={handleCart}
-          style={{
-            alignItems: "center",
-            textAlign: "center",
-            display: "flex",
-            gap: "10px",
-          }}
-        >
-          <img
-            src="https://www.svgrepo.com/show/533043/cart-shopping.svg"
-            height={20}
-            alt={"Корзина"}
-          />
-          {cart.length}
-        </button>
-      )}
-      {!isIndexPage && (
-        <button className="back-button" onClick={handleGoBack}>
-          Назад
-        </button>
-      )}
+      <div style={{display: 'flex'}}>
+        {cart.length !== 0 && !isCartPage && (
+          <button
+            className="back-button"
+            onClick={handleCart}
+            style={{
+              alignItems: "center",
+              textAlign: "center",
+              display: "flex",
+              gap: "10px",
+            }}
+          >
+            <img
+              src="https://www.svgrepo.com/show/533043/cart-shopping.svg"
+              height={20}
+              alt={"Корзина"}
+            />
+            {cart.length}
+          </button>
+        )}
+        {!isIndexPage && (
+          <button className="back-button" onClick={handleGoBack}>
+            Назад
+          </button>
+        )}
+      </div>
     </div>
   );
 };
