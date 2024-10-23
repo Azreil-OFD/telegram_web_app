@@ -172,7 +172,7 @@ const ProductItem = () => {
           fontWeight: "bold",
           width: "100%",
           position: "fixed",
-          bottom: "16px",
+          bottom: "5px",
           zIndex: 1000,
         }}
         onClick={handleAddToCart}

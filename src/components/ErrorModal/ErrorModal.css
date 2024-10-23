@@ -28,6 +28,7 @@
 .modal-buttons {
   display: flex;
   justify-content: space-between;
+  float: right;
 }
 
 .cancel-button,
