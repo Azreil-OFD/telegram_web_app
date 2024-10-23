@@ -67,35 +67,44 @@ const ProductItem = () => {
           `${BASE_URL}/v1/categories?populate[products][populate]=images`,
         );
         const data = await response.json();
+        console.log("API Response:", data); // Log the full API response
         const category = data.data.find(
           (category) => category.id === parseInt(categoryID),
         );
-
+    
         if (category) {
           const foundProduct = category.attributes.products.data.find(
             (product) => product.id === parseInt(productID),
           );
-          setProduct(foundProduct || null);
-          setTitle(foundProduct.attributes.title);
-          console.log(product)
-          if (!foundProduct) {
-            setProduct(null);
-            navigate("/");
+          setProduct(foundProduct);
+          setTitle(foundProduct?.attributes?.title || "");
+          console.log("Found Product:", foundProduct); // Log the found product
+          if(foundProduct.attributes.In_stock) {
+            tg.MainButton.setText("Добавит в корзину!");
+            tg.MainButton.onClick(handleAddToCart);
           } else {
-            setProduct(foundProduct);
-            setTitle(foundProduct.attributes.title);
+            tg.MainButton.setParams({ is_active: false });
+            tg.MainButton.setText("Нет в наличии!");
           }
+          if (!foundProduct) {
+            navigate("/");
+          }
+        } else {
+          setProduct(null);
+          navigate("/");
         }
       } catch (error) {
         console.error("Error fetching product:", error);
       } finally {
         setLoading(false);
+        
       }
     };
+    
 
     fetchProduct();
-    tg.MainButton.setText("Добавит в корзину!");
-    tg.MainButton.onClick(handleAddToCart);
+
+    
   }, []);
 
   useEffect(() => {
