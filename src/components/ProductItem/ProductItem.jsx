@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef  } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import "./ProductItem.css";
@@ -22,7 +22,21 @@ const ProductItem = () => {
   const [title, setTitle] = useLocalStorage("title", "");
   const isFunctionCalled = useRef(false);
   const navigate = useNavigate();
-  
+  const handleAddToCart = async () => {
+    if (!product) {
+      console.error("Product is null or undefined");
+      return;
+    }
+    if (!product.attributes.In_stock) {
+      alert("Product is null or undefined");
+      return;
+    }
+    addToCart({ id: product.id, ...product.attributes, weight });
+    setWeight(0);
+    setSuccess(true);
+    tg.MainButton.hide();
+    navigate("/");
+  };
   if (!isFunctionCalled.current) {
     tg.MainButton.onClick(handleAddToCart);
     isFunctionCalled.current = true;
@@ -50,21 +64,7 @@ const ProductItem = () => {
     setCart(updatedCart);
   };
 
-  const handleAddToCart = async () => {
-    if (!product) {
-      console.error("Product is null or undefined");
-      return;
-    }
-    if (!product.attributes.In_stock) {
-      alert("Product is null or undefined");
-      return;
-    }
-    addToCart({ id: product.id, ...product.attributes, weight });
-    setWeight(0);
-    setSuccess(true);
-    tg.MainButton.hide();
-    navigate("/");
-  };
+
 
 
   useEffect(() => {
