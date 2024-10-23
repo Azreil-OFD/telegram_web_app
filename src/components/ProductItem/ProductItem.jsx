@@ -100,10 +100,6 @@ const ProductItem = () => {
   }, [categoryID, productID, navigate]);
 
 
-  useEffect(() => {
-    if (totalPrice > 0) tg.MainButton.show();
-    else tg.MainButton.hide();
-  }, [totalPrice, tg]);
 
   if (loading) return <h1 className="page-title">Загрузка...</h1>;
   if (!product) return <p>Продукт не найден</p>;
@@ -171,8 +167,6 @@ const ProductItem = () => {
           width: "100%",
           position: "fixed",
           bottom: "16px",
-          left: "16px",
-          right: "16px",
           zIndex: 1000,
         }}
         onClick={handleAddToCart}
