@@ -118,10 +118,22 @@ const ProductItem = () => {
   };
 
   return (
-    <div className="product-item">
-      {product?.attributes?.images?.data?.length > 1 ? (
-        <Slider {...sliderSettings}>
-          {product.attributes.images.data.map((image, index) => (
+    <>
+      <div className="product-item">
+        {product?.attributes?.images?.data?.length > 1 ? (
+          <Slider {...sliderSettings}>
+            {product.attributes.images.data.map((image, index) => (
+              <div key={index}>
+                <img
+                  src={image.attributes.url}
+                  alt={product.attributes.title}
+                  className="product-image"
+                />
+              </div>
+            ))}
+          </Slider>
+        ) : (
+          product?.attributes?.images?.data?.map((image, index) => (
             <div key={index}>
               <img
                 src={image.attributes.url}
@@ -129,32 +141,23 @@ const ProductItem = () => {
                 className="product-image"
               />
             </div>
-          ))}
-        </Slider>
-      ) : (
-        product?.attributes?.images?.data?.map((image, index) => (
-          <div key={index}>
-            <img
-              src={image.attributes.url}
-              alt={product.attributes.title}
-              className="product-image"
-            />
-          </div>
-        ))
-      )}
-      <p>
-        <b>Описание: </b> {product.attributes.description}
-      </p>
-      <p>
-        <b>Цена: </b> {product.attributes.solar}₽ / 50 гр
-      </p>
-      <div className="total">Итоговая стоимость: {Math.trunc(totalPrice)}₽</div>
-      <br />
-      <p>
-        <b>Укажите грамовку</b>
-        <Select start={50} end={1000} step={50} onSelect={onSelect} />
+          ))
+        )}
+        <p>
+          <b>Описание: </b> {product.attributes.description}
+        </p>
+        <p>
+          <b>Цена: </b> {product.attributes.solar}₽ / 50 гр
+        </p>
+        <div className="total">Итоговая стоимость: {Math.trunc(totalPrice)}₽</div>
+        <br />
+        <p>
+          <b>Укажите грамовку</b>
+          <Select start={50} end={1000} step={50} onSelect={onSelect} />
 
-      </p>
+        </p>
+
+      </div>
       {visible && (<button
         style={{
           backgroundColor: themeParams.button_color || "#2AABEE", // Цвет фона кнопки
@@ -172,9 +175,7 @@ const ProductItem = () => {
         onClick={handleAddToCart}
       >
         Добавить в корзину
-      </button>)}
-    </div>
-
+      </button>)}</>
   );
 
 };
