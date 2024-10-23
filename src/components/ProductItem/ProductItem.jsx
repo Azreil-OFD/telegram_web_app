@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef  } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import "./ProductItem.css";
@@ -20,8 +20,13 @@ const ProductItem = () => {
   const [success, setSuccess] = useState(false);
   const { tg } = useTelegram();
   const [title, setTitle] = useLocalStorage("title", "");
-
+  const isFunctionCalled = useRef(false);
   const navigate = useNavigate();
+  
+  if (!isFunctionCalled.current) {
+    tg.MainButton.onClick(handleAddToCart);
+    isFunctionCalled.current = true;
+  }
 
   const totalPrice = useMemo(() => {
     return product ? (product.attributes.solar / 50) * weight : 0;
@@ -84,9 +89,6 @@ const ProductItem = () => {
           console.log("Found Product:", foundProduct); // Log the found product
           if (foundProduct.attributes.In_stock) {
             tg.MainButton.setText("Добавит в корзину!");
-            tg.MainButton.onClick(() => {
-              (async() => {await handleAddToCart()})()
-            });
           } else {
             tg.MainButton.setParams({ is_active: false });
             tg.MainButton.setText("Нет в наличии!");
