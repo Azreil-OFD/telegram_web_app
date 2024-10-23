@@ -84,7 +84,9 @@ const ProductItem = () => {
           console.log("Found Product:", foundProduct); // Log the found product
           if (foundProduct.attributes.In_stock) {
             tg.MainButton.setText("Добавит в корзину!");
-            tg.MainButton.onClick(handleAddToCart);
+            tg.MainButton.onClick(() => {
+              (async() => {await handleAddToCart()})()
+            });
           } else {
             tg.MainButton.setParams({ is_active: false });
             tg.MainButton.setText("Нет в наличии!");
