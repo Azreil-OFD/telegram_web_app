@@ -154,7 +154,6 @@ const ProductItem = () => {
         <p>
           <b>Укажите грамовку</b>
           <Select start={50} end={1000} step={50} onSelect={onSelect} />
-
         </p>
 
       </div>

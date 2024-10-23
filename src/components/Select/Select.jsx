@@ -12,6 +12,7 @@ const Select = ({ start, end, step = 1, onSelect }) => {
 
   return (
     <div className="select-container">
+      <div className="range-value">{selection} гр.</div>
       <input
         type="range"
         min={start}
@@ -21,7 +22,6 @@ const Select = ({ start, end, step = 1, onSelect }) => {
         onChange={handleChange}
         className="select-range"
       />
-      <div className="range-value">{selection} гр.</div>
     </div>
   );
 };
