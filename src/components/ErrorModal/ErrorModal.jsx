@@ -9,7 +9,7 @@ const ErrorModal = ({ isOpen, onClose }) => {
       <div className="modal-container">
         <p>Товара нет в наличии</p>
         <div className="modal-buttons">
-          <button className="cancel-button" onClick={onClose}>
+          <button className="confirm-button" onClick={onClose}>
             Ок
           </button>
         </div>
