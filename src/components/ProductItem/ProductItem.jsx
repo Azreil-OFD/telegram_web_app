@@ -87,12 +87,12 @@ const ProductItem = () => {
     fetchProduct();
     tg.MainButton.setText("Добавит в корзину!");
     tg.MainButton.onClick(handleAddToCart);
-  }, [tg]);
+  }, []);
 
   useEffect(() => {
     if (totalPrice !== 0) tg.MainButton.show();
     else tg.MainButton.hide();
-  }, [totalPrice, tg]);
+  }, [weight]);
 
   if (loading) return <h1 className="page-title">Загрузка...</h1>;
   if (!product) return <p>Продукт не найден</p>;
